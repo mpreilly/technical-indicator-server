@@ -1,52 +1,24 @@
 const techInd = require('technicalindicators')
 const fetch = require('node-fetch')
 
-const AVapiKey = '8YO9J2LZLTZS952M'
+const AVapiKey = 'W7AI95T45CCDL6VJ'
+
+const fakeURL = 'http://localhost:3000/fakeAV'
 
 async function getDailyCloses(symbol) {
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${AVapiKey}`
+    // const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${AVapiKey}`
+    const url = fakeURL
     return fetch(url)
     .then(response => {
         if (!response.ok) { throw response }
         return response.json()
     })
     .then(data => {
+        // console.log(data)
         var closes = []
         for (let day of Object.keys(data['Time Series (Daily)'])) {
             // console.log(day + ": " + data['Time Series (Daily)'][day]['4. close'])
             closes.push(parseFloat(data['Time Series (Daily)'][day]['4. close']))
-        }
-        return closes.reverse()
-    }).catch(err => console.log(err))
-}
-
-async function getDailyHighs(symbol) {
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${AVapiKey}`
-    return fetch(url)
-    .then(response => {
-        if (!response.ok) { throw response }
-        return response.json()
-    })
-    .then(data => {
-        var closes = []
-        for (let day of Object.keys(data['Time Series (Daily)'])) {
-            closes.push(parseFloat(data['Time Series (Daily)'][day]['2. high']))
-        }
-        return closes.reverse()
-    }).catch(err => console.log(err))
-}
-
-async function getDailyLows(symbol) {
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${AVapiKey}`
-    return fetch(url)
-    .then(response => {
-        if (!response.ok) { throw response }
-        return response.json()
-    })
-    .then(data => {
-        var closes = []
-        for (let day of Object.keys(data['Time Series (Daily)'])) {
-            closes.push(parseFloat(data['Time Series (Daily)'][day]['2. high']))
         }
         return closes.reverse()
     }).catch(err => console.log(err))
@@ -95,7 +67,8 @@ function getBollingerRating(symbol, numDays) {
 }
 
 function getStochasticOsc(symbol) {
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${AVapiKey}`
+    // const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${AVapiKey}`
+    const url = fakeURL
     return fetch(url)
     .then(response => {
         if (!response.ok) { throw response }
@@ -158,3 +131,4 @@ function getRSIRating(symbol, numDays) {
 
 module.exports.getBollingerRating = getBollingerRating
 module.exports.getRSIRating = getRSIRating
+module.exports.getRSI = getRSI
